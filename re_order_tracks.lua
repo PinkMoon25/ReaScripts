@@ -1,4 +1,4 @@
-local trackOrder = {'drums','drums-2', 'guitar', 'guitar-1','guitar-2', 'sarod', 'vocal'} -- Replace with your desired track names and order
+local trackOrder = {'drums', 'drums-2', 'guitar', 'guitar-1', 'guitar-2', 'sarod', 'vocal'} -- Replace with your desired track names and order
 
 for targetIndex, trackNameToMove in ipairs(trackOrder) do
     -- Find the track index of the track to move
@@ -6,6 +6,12 @@ for targetIndex, trackNameToMove in ipairs(trackOrder) do
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
         local _, trackName = reaper.GetTrackName(track, "")
+
+        local isChild = reaper.GetParentTrack(track) ~= nil
+
+        if isChild then
+            break
+        end
 
         if trackName == trackNameToMove then
             trackToMoveIndex = i
